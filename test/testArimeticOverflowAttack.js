@@ -43,4 +43,24 @@ describe('ArimeticOverflow Attack', async () => {
 
     assert.equal(attack_balance.toString(), ethers.utils.parseUnits('1', 'ether').toString());      
   })
+
+  it('shows timeLock attack failing because of using safeMath', async () => {
+    
+
+
+    try {
+      await attack.connect(userArray[3]).fixed_attack({value: depositValue})     
+      assert.fail();
+    } catch (err) {
+      
+    }
+    // const provider = waffle.provider;
+    // const attack_balance = await provider.getBalance(attack.address);
+    // const timeLock_balance = await provider.getBalance(timeLock.address);
+    // console.log('attack balance: ', attack_balance.toString())
+    // console.log('timelock balance: ', timeLock_balance.toString())
+
+    // assert.equal(attack_balance.toString(), ethers.utils.parseUnits('1', 'ether').toString());      
+  })
+
 })

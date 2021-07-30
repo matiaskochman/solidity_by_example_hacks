@@ -95,7 +95,7 @@ contract ReentrantAttack {
     }
 
     function attack() external payable {
-        console.log('attack()', address(this) , address(this).balance);
+        // console.log('attack()', address(this) , address(this).balance);
         require(msg.value >= 1 ether);
         etherStore.deposit{value: 1 ether}();
         etherStore.withdraw(1 ether);
@@ -123,7 +123,7 @@ contract ReentrantAttackFixed {
     }
 
     function attackNonReetrant() external payable {
-        console.log('attackNonReetrant()', address(this) , address(this).balance);
+        // console.log('attackNonReetrant()', address(this) , address(this).balance);
         require(msg.value >= 1 ether);
         etherStore.deposit{value: 1 ether}();
         etherStore.withdraw_noReentrant(1 ether);    }
